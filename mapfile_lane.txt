@@ -1,0 +1,25 @@
+sample_name	number	sample	tube_name	sequencing_lane					
+S1	1	Shoot Control 1	"S, C1, D1"	4					
+S2	2	Shoot Control 2	"S, C2, D1"	4					
+S3	3	Root Control 1	"R, C1, D1"	4					
+S4	4	Root Control 2	"R, C2, D1"	4					
+S5	5	Shoot Infected 1	"S, I1, D1"	4					
+S6	6	Shoot Infected 2	"S, I2, D1"	4					
+S7	7	Root Infected 1	"R, I1, D1"	4					
+S8	8	Root Infected 2	"R, I2, D1"	4					
+S9	9	Shoot Control 1	"S, C1, D3"	4					
+S10	10	Shoot Control 2	"S, C2, D3"	4					
+S11	11	Root Control 1	"R, C1, D3"	4					
+S12	12	Root Control 2	"R, C2, D3"	4					
+S13	1	Shoot Infected 1	"S, I1, D3"	5					
+S14	2	Shoot Infected 2	"S, I2, D3"	5					
+S15	3	Root Infected 1	"R, I1, D3"	5					
+S16	4	Root Infected 2	"R, I2, D3"	5					
+S17	5	Shoot Control 1	"S, C1, D5"	5					
+S18	6	Shoot Control 2	"S, C2, D5"	5					
+S19	7	Root Control 1	"R, C1, D5"	5					
+S20	8	Root Control 2	"R, C2, D5"	5					
+S21	9	Shoot Infected 1	"S, I1, D5"	5					
+S22	10	Shoot Infected 2	"S, I2, D5"	5					
+S23	11	Root Infected 1	"R, I1, D5"	5					
+S24	12	Root Infected 2	"R, I2, D5"	5					
