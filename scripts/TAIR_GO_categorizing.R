@@ -24,14 +24,13 @@ GO_main_bp <- GO_main_categories[which(GO_main_categories$ONTOLOGY.ASPECT == "bi
 
 rownames(GO_main_bp) <- GO_main_bp$GO_ID
 
-#Acquired all GO id subcategories within each of these GO SLIM categories with the GOfuncR package.
+# Acquired all GO id subcategories within each of these GO SLIM categories with the GOfuncR package.
 
 go_slim_subcategories <- lapply(GO_main_bp$GO_ID, get_child_nodes)
 names(go_slim_subcategories) <- GO_main_bp$GO_ID
 
 
 # Read in all A. thaliana genes and determine which categories they fit in.
-
 At_genes_to_GO <- read.table("At_GO/ATH_to_GO_unique.tsv",
                              header=FALSE, sep="\t", stringsAsFactors = FALSE)
 
@@ -65,10 +64,10 @@ At_genes <- At_genes_to_GO$V1[-which(duplicated(At_genes_to_GO$V1))]
 At_gene_single_category <- list()
 
 for(category in names(category_lengths)) {
-  At_gene_single_category[[category]] <- as.character()
+  At_gene_single_category[[category]] <- character()
 }
 
-At_gene_single_category[["Unknown biological processes"]] <- as.character()
+At_gene_single_category[["Unknown biological processes"]] <- character()
 
 for(At in At_genes) {
   
