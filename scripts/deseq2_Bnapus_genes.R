@@ -55,6 +55,7 @@ for(row_i in 1:nrow(sample_table)) {
   all_mmquant_categories <- c(all_mmquant_categories,
                               rownames(read.table(paste("mmquant_out/mmquant_out/", sample_table$file[row_i], sep=""), sep="\t", row.names=1, header=TRUE)))
 }
+
 all_mmquant_categories <- all_mmquant_categories[-which(duplicated(all_mmquant_categories))]
 all_mmquant_categories <- sort(all_mmquant_categories)
 

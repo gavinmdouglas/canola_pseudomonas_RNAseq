@@ -54,10 +54,13 @@ At_gene_single_category <- readRDS("At_GO_RDS/At_gene_single_category.rds")
 Bnapus_At_categories <- list()
 
 for(category in names(At_gene_single_category)) {
-  Bnapus_At_categories[[category]] <- c()
+  Bnapus_At_categories[[category]] <- character()
 }
 
-for(matched_gene in rownames(ratios_Bn_info)[-which(is.na(ratios_Bn_info$Athaliana_top_hit))]) {
+
+matched_Bnapus_genes <- rownames(ratios_Bn_info)[-which(is.na(ratios_Bn_info$Athaliana_top_hit))]
+
+for(matched_gene in matched_Bnapus_genes) {
   At_gene <- ratios_Bn_info[matched_gene, "Athaliana_top_hit"]
 
   for(category in names(sort(sapply(At_gene_single_category, length), decreasing = TRUE))) {
