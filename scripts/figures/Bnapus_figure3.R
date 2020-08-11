@@ -17,7 +17,7 @@ root_up_sig[["Day 3"]] <- read.table("Bnapus_sig_gene_sets/day3_up/Bnapus_day3_g
 root_up_sig[["Day 5"]] <- read.table("Bnapus_sig_gene_sets/day5_up/Bnapus_day5_genes_Root_up_padj_0.1_l2fc_2.txt", stringsAsFactors = FALSE)$V1
 
 root_up_sig_venn <- ggVennDiagram(x = root_up_sig) +
-                        scale_fill_gradient(low="light grey", high = "red", limits = c(0, 3000)) +
+                        scale_fill_gradient(low="light grey", high = "red", limits = c(0, 2000)) +
                         labs(fill="Count") +
                         ggtitle("Root up-regulated") +
   theme(plot.title = element_text(hjust = 0.5))
@@ -29,7 +29,7 @@ root_down_sig[["Day 3"]] <- read.table("Bnapus_sig_gene_sets/day3_down/Bnapus_da
 root_down_sig[["Day 5"]] <- read.table("Bnapus_sig_gene_sets/day5_down/Bnapus_day5_genes_Root_down_padj_0.1_l2fc_-2.txt", stringsAsFactors = FALSE)$V1
 
 root_down_sig_venn <- ggVennDiagram(x = root_down_sig) +
-                          scale_fill_gradient(low="light grey", high = "red", limits = c(0, 3000)) +
+                          scale_fill_gradient(low="light grey", high = "red", limits = c(0, 2000)) +
                           labs(fill="Count") +
                           ggtitle("Root down-regulated") +
   theme(plot.title = element_text(hjust = 0.5))
@@ -42,7 +42,7 @@ shoot_up_sig[["Day 3"]] <- read.table("Bnapus_sig_gene_sets/day3_up/Bnapus_day3_
 shoot_up_sig[["Day 5"]] <- read.table("Bnapus_sig_gene_sets/day5_up/Bnapus_day5_genes_Shoot_up_padj_0.1_l2fc_2.txt", stringsAsFactors = FALSE)$V1
 
 shoot_up_sig_venn <- ggVennDiagram(x = shoot_up_sig) +
-  scale_fill_gradient(low="light grey", high = "red", limits = c(0, 3000)) +
+  scale_fill_gradient(low="light grey", high = "red", limits = c(0, 2000)) +
   labs(fill="Count") +
   ggtitle("Shoot up-regulated") +
   theme(plot.title = element_text(hjust = 0.5))
@@ -54,7 +54,7 @@ shoot_down_sig[["Day 3"]] <- read.table("Bnapus_sig_gene_sets/day3_down/Bnapus_d
 shoot_down_sig[["Day 5"]] <- read.table("Bnapus_sig_gene_sets/day5_down/Bnapus_day5_genes_Shoot_down_padj_0.1_l2fc_-2.txt", stringsAsFactors = FALSE)$V1
 
 shoot_down_sig_venn <- ggVennDiagram(x = shoot_down_sig) +
-  scale_fill_gradient(low="light grey", high = "red", limits = c(0, 3000)) +
+  scale_fill_gradient(low="light grey", high = "red", limits = c(0, 2000)) +
   labs(fill="Count") +
   ggtitle("Shoot down-regulated") +
   theme(plot.title = element_text(hjust = 0.5))

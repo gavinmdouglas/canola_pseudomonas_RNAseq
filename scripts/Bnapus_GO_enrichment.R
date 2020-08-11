@@ -10,12 +10,11 @@ library(openxlsx)
 
 setwd("/home/gavin/projects/pseudomonas_RNAseq/canola_pseudomonas_RNAseq/")
 
-# First exclude genes that didn't map to A. thaliana orthologs (and cases where mapping is ambiguously to multiple genes). 
+# First exclude genes that didn't map to A. thaliana orthologs. 
 Bnapus_log2fold <- read.table("Bnapus_deseq2_outfiles/deseq2_log2fold.txt",
                                        header=TRUE, sep="\t", row.names=1, quote="", comment.char="", stringsAsFactors = FALSE)
 
-Bnapus_log2fold_filt <- Bnapus_log2fold[-grep("\\|", Bnapus_log2fold$Athaliana_top_hit), ]
-Bnapus_log2fold_filt <- Bnapus_log2fold_filt[-which(is.na(Bnapus_log2fold_filt$Athaliana_top_hit)), ]
+Bnapus_log2fold_filt <- Bnapus_log2fold[-which(is.na(Bnapus_log2fold$Athaliana_top_hit)), ]
 
 Bnapus_gene_background <- rownames(Bnapus_log2fold_filt)
 

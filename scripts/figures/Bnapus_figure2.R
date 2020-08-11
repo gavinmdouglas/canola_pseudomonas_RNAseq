@@ -175,6 +175,7 @@ for(Bn_gene in rownames(ratios_Bn_set)) {
   }
 }
 
+split_vec[which(split_vec == "Nucleobase-containing compound metabolic process")] <- "Nucleobase-containing comp. met. proc."
 
 col_rnorm = colorRamp2(c(-2, 0, 2), c("blue", "white", "red"))
 
