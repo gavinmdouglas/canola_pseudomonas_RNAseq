@@ -16,33 +16,55 @@ JA_genes <- read.table("At_GO/hormone_genes/JA.txt", header=F, stringsAsFactors 
 SA_genes <- read.table("At_GO/hormone_genes/SA.txt", header=F, stringsAsFactors = FALSE)$V1
 
 # Read in log2fold ratios.
-ratios_AT <- read.table("At_deseq2_outfiles/At_homolog_deseq2_log2fold.txt",
+ratios_Bn <- read.table("Bnapus_deseq2_outfiles/deseq2_log2fold.txt",
                         header=TRUE, 
                         sep="\t",
                         stringsAsFactors = FALSE,
                         quote="",
                         comment.char = "")
 
-rownames(ratios_AT) <- ratios_AT$At_gene
+rownames(ratios_Bn) <- ratios_Bn$Bnapus_genes
+
+ratios_Bn <- ratios_Bn[-grep("--", rownames(ratios_Bn)), ]
 
 # Get info columns and remove from original df.
-ratios_AT_info <- ratios_AT[, c(1, 2)]
-ratios_AT <- ratios_AT[, -c(1, 2)]
+ratios_Bn_info <- ratios_Bn[, c(1, 2, 3)]
+ratios_Bn <- ratios_Bn[, -c(1, 2, 3)]
 
 # Make all names unique.
-ratios_AT_info$unique_name <- make.unique(ratios_AT_info$NAME, sep = ".")
+ratios_Bn_info$unique_descrip <- make.unique(ratios_Bn_info$Athaliana_description, sep = ".")
 
-ratios_AT[ratios_AT > 2] <- 2
-ratios_AT[ratios_AT < -2] <- -2
+ratios_Bn[ratios_Bn > 2] <- 2
+ratios_Bn[ratios_Bn < -2] <- -2
 
 # Give columns clearer names
-colnames(ratios_AT) <- c("Day 1 Shoot", "Day 3 Shoot", "Day 5 Shoot", "Day 1 Root", "Day 3 Root", "Day 5 Root")
+colnames(ratios_Bn) <- c("Day 1 Shoot", "Day 3 Shoot", "Day 5 Shoot", "Day 1 Root", "Day 3 Root", "Day 5 Root")
 
 breaksList = seq(-2, 2, by = 0.1)
 
-SA_heatmap <- pheatmap(ratios_AT[SA_genes, ],
+identify_At_matches <- function(At_ids) {
+ 
+  matching_i <- c()
+  
+  for(At in At_ids) {
+   
+    At_matches <- which(ratios_Bn_info$Athaliana_top_hit == At)
+    
+    if(length(At_matches) > 0) {
+     matching_i <- c(matching_i, At_matches) 
+    }
+  }
+
+  if(length(which(duplicated(matching_i))) > 0 ) {
+    matching_i <- matching_i[-which(duplicated(matching_i))]
+  }
+   
+  return(matching_i)
+}
+
+SA_heatmap <- pheatmap(ratios_Bn[identify_At_matches(ET_genes), ],
                        clustering_distance_rows = "euclidean",
-                       clustering_method = "average",
+                       clustering_method = "complete",
                        cluster_rows = TRUE,
                        cluster_cols = FALSE,
                        treeheight_row = 0,
@@ -52,7 +74,7 @@ SA_heatmap <- pheatmap(ratios_AT[SA_genes, ],
                        breaks = breaksList,
                        main="Salicylic Acid Pathway")
 
-JA_heatmap <- pheatmap(ratios_AT[JA_genes, ],
+JA_heatmap <- pheatmap(ratios_Bn[identify_At_matches(JA_genes), ],
                        clustering_distance_rows = "euclidean",
                        clustering_method = "average",
                        cluster_rows = TRUE,
@@ -64,7 +86,7 @@ JA_heatmap <- pheatmap(ratios_AT[JA_genes, ],
                        breaks = breaksList,
                        main="Jasmonic Acid Pathway")
                        
-ET_heatmap <- pheatmap(ratios_AT[ET_genes, ],
+ET_heatmap <- pheatmap(ratios_Bn[identify_At_matches(ET_genes), ],
                        clustering_distance_rows = "euclidean",
                        clustering_method = "average",
                        cluster_rows = TRUE,

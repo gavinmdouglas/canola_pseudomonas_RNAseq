@@ -83,6 +83,7 @@ terms2replace[["modification of morphology or physiology..."]] <- "Modification 
 terms2replace[["carbohydrate derivative catabolic proces..."]] <- "Carbohydrate derivative catabolic process"
 terms2replace[["regulation of anion transmembrane transp..."]] <- "Regulation of anion transmembrane transport"
 terms2replace[["reactive oxygen species metabolic proces..."]] <- "Reactive oxygen species metabolic process"
+terms2replace[["secondary metabolite biosynthetic proces..."]] <- "Secondary metabolite biosynthetic process"
 
 
 
