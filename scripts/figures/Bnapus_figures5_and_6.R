@@ -72,7 +72,7 @@ terms2replace[["defense response by callose deposition i..."]] <- "Defense respo
 terms2replace[["photosynthetic electron transport in pho..."]] <- "Photosynthetic electron transport in photosystem I"
 terms2replace[["regulation of photosynthesis, light reac..."]] <- "Regulation of photosynthesis, light reaction"
 terms2replace[["unsaturated fatty acid biosynthetic proc..."]] <- "Unsaturated fatty acid biosynthetic process"
-terms2replace[["regulation of generation of precursor me..."]] <- "Regulation of generation of precursor metabolites and energy"
+terms2replace[["regulation of generation of precursor me..."]] <- "Reg. of generation of precursor met. and energy"
 terms2replace[["cellular response to decreased oxygen le..."]] <- "Cellular response to decreased oxygen levels"
 terms2replace[["indole-containing compound catabolic pro..."]] <- "Indole-containing compound catabolic process"
 terms2replace[["cellular response to phosphate starvatio..."]] <- "Cellular response to phosphate starvation"
@@ -84,6 +84,7 @@ terms2replace[["carbohydrate derivative catabolic proces..."]] <- "Carbohydrate 
 terms2replace[["regulation of anion transmembrane transp..."]] <- "Regulation of anion transmembrane transport"
 terms2replace[["reactive oxygen species metabolic proces..."]] <- "Reactive oxygen species metabolic process"
 terms2replace[["secondary metabolite biosynthetic proces..."]] <- "Secondary metabolite biosynthetic process"
+terms2replace[["branched-chain amino acid biosynthetic p..."]] <- "Branched-chain amino acid biosynthetic process"
 
 
 
@@ -98,21 +99,21 @@ for(category in names(go_enrichment_results)) {
 }
 
 
-# Plot barplots and ignore Gene Ontology categories that are 
+GO_to_AT_table <- read.table("At_GO/ATH_to_GO_unique.tsv", header=FALSE, sep="\t", stringsAsFactors = FALSE)
 
+# Plot barplots of top 15 GO categories while excluding redundant categories.
 root_day1_up <- go_enrichment_barplot(go_enrichment_results$Root_up_day1,
                                       title="Root Day 1 Up-regulated",
-                                      go2ignore = c("GO:0071453", "GO:0042402", "GO:0006030", "GO:0006032",
-                                                    "GO:0046217", "GO:0046348", "GO:0052314", "GO:0052315",
-                                                    "GO:1901072"),
+                                      go2ignore = c("GO:0071453", "GO:0046217", "GO:0052314",
+                                                    "GO:0052315", "GO:0009310", "GO:0042402", "GO:0052317"),
                                       x_max = 20)
 
 root_day3_up <- go_enrichment_barplot(go_enrichment_results$Root_up_day3,
                                       title="Root Day 3 Up-regulated",
-                                      go2ignore = c("GO:1900056", "GO:1905622", "GO:0006030", "GO:0006032",
-                                                    "GO:0046217", "GO:0046348", "GO:0052314", "GO:0052315",
-                                                    "GO:1901072", "GO:0052317", "GO:0019759", "GO:0019762"),
-                                      x_max = 20)      
+                                      go2ignore = c("GO:1905622", "GO:0046217", "GO:0052314", "GO:0052315",
+                                                    "GO:0052317", "GO:0006030", "GO:0006032", "GO:0046348",
+                                                    "GO:1901072", "GO:0071453"),
+                                      x_max = 20)  
 
 root_day5_up <- go_enrichment_barplot(go_enrichment_results$Root_up_day5,
                                       title="Root Day 5 Up-regulated",
@@ -121,28 +122,31 @@ root_day5_up <- go_enrichment_barplot(go_enrichment_results$Root_up_day5,
 
 shoot_day1_up <- go_enrichment_barplot(go_enrichment_results$Shoot_up_day1,
                                       title="Shoot Day 1 Up-regulated",
-                                      go2ignore = c("GO:0006030", "GO:0006032", "GO:0046348", "GO:1901072"),
+                                      go2ignore = c("GO:0006030", "GO:0006032", "GO:0046348",
+                                                    "GO:1901072", "GO:0042343", "GO:0019758",
+                                                    "GO:0019761"),
                                       x_max = 20)
+
+
 
 shoot_day3_up <- go_enrichment_barplot(go_enrichment_results$Shoot_up_day3,
                                       title="Shoot Day 3 Up-regulated",
-                                      go2ignore = c(),
+                                      go2ignore = c("GO:0071453"),
                                       x_max = 20)
 
 shoot_day5_up <- go_enrichment_barplot(go_enrichment_results$Shoot_up_day5,
                                       title="Shoot Day 5 Up-regulated",
-                                      go2ignore = c("GO:0006030", "GO:0006032", "GO:0046348", "GO:1901072",
-                                                    "GO:0052317", "GO:0006560", "GO:0046217", "GO:0052314", "GO:0052315",
-                                                    "GO:0019759", "GO:0019762"),
+                                      go2ignore = c("GO:0006030", "GO:0006032", "GO:0046348",
+                                                    "GO:1901072", "GO:0052317", "GO:0006560",
+                                                    "GO:0046217", "GO:0052314", "GO:0052315",
+                                                    "GO:1901071"),
                                       x_max = 20)
-
-
 
 
 # Downregulated plots
 root_day1_down <- go_enrichment_barplot(go_enrichment_results$Root_down_day1,
                                       title="Root Day 1 Down-regulated",
-                                      go2ignore = c("GO:1990066", "GO:0006833", "GO:0018119"),
+                                      go2ignore = c("GO:0072347", "GO:0006833", "GO:0018119"),
                                       x_max = 25)
 
 root_day3_down <- go_enrichment_barplot(go_enrichment_results$Root_down_day3,
@@ -167,7 +171,7 @@ shoot_day3_down <- go_enrichment_barplot(go_enrichment_results$Shoot_down_day3,
 
 shoot_day5_down <- go_enrichment_barplot(go_enrichment_results$Shoot_down_day5,
                                        title="Shoot Day 5 Down-regulated",
-                                       go2ignore = c("GO:1990066", "GO:0018119", "GO:0043155", "GO:0006833"),
+                                       go2ignore = c("GO:0018119", "GO:0043155", "GO:0006833"),
                                        x_max = 25)  
 
 # Write out plots
