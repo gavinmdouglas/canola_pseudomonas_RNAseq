@@ -179,9 +179,9 @@ dev.off()
 
 
 pdf(file = "plots/main/Figure6_downregulated_GO.pdf", width=18, height=10, onefile=FALSE)
-plot_grid(root_day1_down, root_day5_down, shoot_day1_down, shoot_day5_down,
+plot_grid(root_day1_down, root_day5_down, shoot_day5_down,
           nrow=2, ncol=2,
-          labels=c('A', 'B', 'C', 'D'))
+          labels=c('A', 'B', 'C'))
 
 dev.off()
 
