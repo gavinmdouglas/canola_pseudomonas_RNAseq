@@ -57,6 +57,10 @@ for(row_i in 1:nrow(sample_table)) {
 }
 
 all_mmquant_categories <- all_mmquant_categories[-which(duplicated(all_mmquant_categories))]
+
+# Removed all multi-gene categories:
+all_mmquant_categories <- all_mmquant_categories[-grep("--", all_mmquant_categories)]
+
 all_mmquant_categories <- sort(all_mmquant_categories)
 
 # Initialize empty dataframe for mmquant counts.
@@ -68,7 +72,9 @@ colnames(Bnapus_mmquant) <- sample_table$sample
 for(row_i in 1:nrow(sample_table)) {
   sample_id <- as.character(sample_table$sample[row_i])
   mmquant_in <- read.table(paste("mmquant_out/mmquant_out/", sample_table$file[row_i], sep=""), sep="\t", row.names=1, header=TRUE)
-  Bnapus_mmquant[rownames(mmquant_in), sample_id] <- mmquant_in[, sample_id]
+  
+  overlapping_genes <- rownames(Bnapus_mmquant)[which(rownames(Bnapus_mmquant) %in% rownames(mmquant_in))]
+  Bnapus_mmquant[overlapping_genes, sample_id] <- mmquant_in[overlapping_genes, sample_id]
 }
 
 
@@ -144,9 +150,6 @@ write.table(day5_results_RC_RI_shrink, file="Bnapus_deseq2_outfiles/day5_results
 
 # Create table with the log-fold change values for all pairwise comparisons and add in A. thaliana annotation information when available.
 # This table was written to an output file.
-# Note that adding in the annotation info takes a little extra work because mmquant outputs cases where reads mapped to multiple reads (and delimits them by "--").
-# In these cases the top A. thaliana hits and the descriptions are delimited by "|" in the output, in the same order as the B. napus genes.
-# If the the top hits are exactly the same for all genes then only the single A. thaliana gene that is the top hit is returned.
 
 combined_deseq2_out <- cbind(        day1_results_SC_SI_shrink[,"log2FoldChange", drop=FALSE],
                                      day3_results_SC_SI_shrink[,"log2FoldChange", drop=FALSE],
@@ -166,41 +169,11 @@ Bnapus_annot_map <- read.table("tables/Bnapus_merged_func_annot.txt",
 
 rownames(Bnapus_annot_map) <- make.names(Bnapus_annot_map$Bnapus_gene_symbol, unique=TRUE)
 
-mmquant_annot_to_At <- data.frame(matrix("MISSING", nrow=nrow(combined_deseq2_out), ncol=2), stringsAsFactors = FALSE)
-rownames(mmquant_annot_to_At) <- rownames(combined_deseq2_out)
-colnames(mmquant_annot_to_At) <- c("Athaliana_top_hit", "Athaliana_description")
-
-individual_genes <- grep("--", rownames(mmquant_annot_to_At), value=TRUE, invert=TRUE)
-mult_genes <- grep("--", rownames(mmquant_annot_to_At), value=TRUE, invert=FALSE)
-
-mmquant_annot_to_At[individual_genes, c("Athaliana_top_hit", "Athaliana_description")] <- Bnapus_annot_map[individual_genes, c("Athaliana_gene", "Athaliana_description")]
-
-for(mult in mult_genes) {
-  split_genes <- strsplit(mult, "--")[[1]]
-  At_genes <- as.character()
-  At_descrip <- as.character()
-  
-  for(g in split_genes) {
-    At_genes <- c(At_genes, Bnapus_annot_map[g, "Athaliana_gene"])
-    At_descrip <- c(At_descrip, Bnapus_annot_map[g, "Athaliana_description"])
-  }
-  
-  # If all the top At hits are identical then just return it and don't bother concatenating them. Otherwise split them by "|".
-  
-  if(length(which(duplicated(At_genes)) > 0) && length(At_genes[-which(duplicated(At_genes))]) == 1) {
-    mmquant_annot_to_At[mult, c("Athaliana_top_hit", "Athaliana_description")] <- c(At_genes[1], At_descrip[1])
-  } else {
-    mmquant_annot_to_At[mult, c("Athaliana_top_hit", "Athaliana_description")] <- c(paste(At_genes, collapse="|"),
-                                                                                    paste(At_descrip, collapse="|"))
-  }
-}
-
 combined_deseq2_out$Bnapus_genes <- rownames(combined_deseq2_out)
-combined_deseq2_out$Athaliana_top_hit <- mmquant_annot_to_At[rownames(combined_deseq2_out), "Athaliana_top_hit"]
-combined_deseq2_out$Athaliana_description <- mmquant_annot_to_At[rownames(combined_deseq2_out), "Athaliana_description"]
+combined_deseq2_out$Athaliana_top_hit <- Bnapus_annot_map[rownames(combined_deseq2_out), "Athaliana_gene"]
+combined_deseq2_out$Athaliana_description <- Bnapus_annot_map[rownames(combined_deseq2_out), "Athaliana_description"]
 
 combined_deseq2_out <- combined_deseq2_out[, c("Bnapus_genes", "Athaliana_top_hit", "Athaliana_description", "s1", "s3", "s5", "r1", "r3", "r5")]
-
 
 write.table(combined_deseq2_out, file="Bnapus_deseq2_outfiles/deseq2_log2fold.txt", 
             sep="\t", row.names=FALSE, col.names=TRUE, quote=FALSE)

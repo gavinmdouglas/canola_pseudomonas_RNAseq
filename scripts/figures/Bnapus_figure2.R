@@ -28,9 +28,6 @@ ratios_Bn_info$Athaliana_description_unique <- make.unique(ratios_Bn_info$Athali
 # Read in significant genes in at least 1 tissue on at least 1 day.
 Bnapus_sig_genes <- read.table("Bnapus_sig_gene_sets/root_shoot_de.txt", header=FALSE, stringsAsFactors = FALSE)$V1
 
-# Restrict significant genes to cases where a single gene was mapped to.
-Bnapus_sig_genes <- Bnapus_sig_genes[-grep("--", Bnapus_sig_genes)]
-
 # Subset to the rows idnetified above and set any absolute values greater than 2 to have a max abs value of 2 (to make it easier to visualize).
 ratios_Bn_set <- ratios_Bn[Bnapus_sig_genes, ]
 ratios_Bn_info <- ratios_Bn_info[Bnapus_sig_genes, ]
