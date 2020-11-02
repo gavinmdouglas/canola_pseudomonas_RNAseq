@@ -175,17 +175,18 @@ shoot_day5_down <- go_enrichment_barplot(go_enrichment_results$Shoot_down_day5,
                                        x_max = 25)  
 
 # Write out plots
-pdf(file = "plots/main/Figure5_upregulated_GO.pdf", width=18, height=10, onefile=FALSE)
-plot_grid(root_day1_up, root_day3_up, root_day5_up, shoot_day1_up, shoot_day3_up, shoot_day5_up,
+pdf(file = "plots/main/Figure5_root_GO.pdf", width=18, height=10, onefile=FALSE)
+plot_grid(root_day1_up, root_day3_up, root_day5_up, root_day1_down, root_day5_down,
           nrow=2,
-          labels=c('A', 'B', 'C', 'D', 'E', 'F'))
+          labels=c('A', 'B', 'C', 'D', 'E'))
 dev.off()
 
 
-pdf(file = "plots/main/Figure6_downregulated_GO.pdf", width=18, height=10, onefile=FALSE)
-plot_grid(root_day1_down, root_day5_down, shoot_day5_down,
+pdf(file = "plots/main/Figure6_shoot_GO.pdf", width=12, height=10, onefile=FALSE)
+plot_grid(shoot_day1_up, shoot_day3_up,
+          shoot_day5_up, shoot_day5_down,
           nrow=2, ncol=2,
-          labels=c('A', 'B', 'C'))
+          labels=c('A', 'B', 'C', 'D'))
 
 dev.off()
 

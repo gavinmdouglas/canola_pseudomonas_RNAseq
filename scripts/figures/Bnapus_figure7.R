@@ -1,4 +1,4 @@
-# Figure of concordance between qPCR and RNA-seq. Can make two scatterplots: one for root and one for shoot.
+# Figure of log2 fold difference for key immune regulator genes
 
 rm(list=ls(all.names=TRUE))
 
@@ -13,30 +13,31 @@ library(RColorBrewer)
 Bnapus_annot <- read.table("tables/Bnapus_merged_func_annot.txt",
                            header=TRUE, sep="\t", row.names=1, quote="", comment.char="", stringsAsFactors = FALSE)
 
-Bnapus_BLAST <- read.table("tables/blastn_out_napus_vs_thaliana_evalue0.0001_clean_tophits.txt",
-                           header=TRUE, sep="\t", row.names=1, quote="", comment.char="", stringsAsFactors = FALSE)
-Bnapus_BLAST$Bn_gene <- rownames(Bnapus_BLAST)
-rownames(Bnapus_BLAST) <- Bnapus_annot[Bnapus_BLAST$Bn_gene, "Bnapus_gene_symbol"]
 
 # Get B napus genes that match At homolog. If more than two matches then take the top two with the highest ID matches.
-at_most_two_top_homologs <- function(gene_matches) {
-  if(length(gene_matches) > 2) {
-    BLAST_subset <- Bnapus_BLAST[gene_matches, ]
-    gene_matches <- rownames(BLAST_subset[order(BLAST_subset$pident, decreasing = TRUE),])[c(1, 2)]
-  }
-  
-  return(gene_matches)
-}
+# Bnapus_BLAST <- read.table("tables/blastn_out_napus_vs_thaliana_evalue0.0001_clean_tophits.txt",
+#                            header=TRUE, sep="\t", row.names=1, quote="", comment.char="", stringsAsFactors = FALSE)
+# Bnapus_BLAST$Bn_gene <- rownames(Bnapus_BLAST)
+# rownames(Bnapus_BLAST) <- Bnapus_annot[Bnapus_BLAST$Bn_gene, "Bnapus_gene_symbol"]
+# NOTE: In the end decided to just show all homologues anyway.
+# at_most_two_top_homologs <- function(gene_matches) {
+#   if(length(gene_matches) > 2) {
+#     BLAST_subset <- Bnapus_BLAST[gene_matches, ]
+#     gene_matches <- rownames(BLAST_subset[order(BLAST_subset$pident, decreasing = TRUE),])[c(1, 2)]
+#   }
+#   
+#   return(gene_matches)
+# }
 
 # Get Bnapus gene sets for each At gene of interest (innate immunity TFs)
 
 gene_to_ids <- list()
 
-# ORA59
-gene_to_ids[["ORA59"]] <- Bnapus_annot[grep("ORA59", Bnapus_annot$Athaliana_description), "Bnapus_gene_symbol"]
+# ERF094
+gene_to_ids[["ERF094"]] <- Bnapus_annot[which(Bnapus_annot$Athaliana_gene_symbol == "ERF094"), "Bnapus_gene_symbol"]
 
 # ERF1
-gene_to_ids[["ERF1-1"]] <- Bnapus_annot[grep("ERF1-1$", Bnapus_annot$Athaliana_description), "Bnapus_gene_symbol"]
+gene_to_ids[["ERF1-1"]] <- Bnapus_annot[which(Bnapus_annot$Athaliana_gene_symbol == "ERF1-1"), "Bnapus_gene_symbol"]
 
 # ERF6
 gene_to_ids[["ERF6"]] <- Bnapus_annot[which(Bnapus_annot$Athaliana_gene_symbol == "ERF6"), "Bnapus_gene_symbol"]
@@ -91,12 +92,31 @@ gene_to_ids[["WRKY70"]] <- Bnapus_annot[which(Bnapus_annot$Athaliana_gene_symbol
 all_Bnapus_genes <- c()
 for(gene_id in names(gene_to_ids)) {
   
-  if(length(gene_to_ids[[gene_id]]) > 2) {
-    gene_to_ids[[gene_id]] <- at_most_two_top_homologs(gene_to_ids[[gene_id]])
-  }
+  # Could use this command to get two best hits, but decided to just show all possible homologues.
+  # if(length(gene_to_ids[[gene_id]]) > 2) {
+  #   gene_to_ids[[gene_id]] <- at_most_two_top_homologs(gene_to_ids[[gene_id]])
+  # }
   
   all_Bnapus_genes <- c(all_Bnapus_genes, gene_to_ids[[gene_id]])
 }
+
+
+# Double-check a few At gene id matches and that they are the top BLAST hits if > 2.
+# ERF104 hits: c("BnaA03g40380D", "BnaA08g13940D", "BnaC07g31350D")
+# Bnapus_annot[which(Bnapus_annot$Bnapus_gene_symbol %in% c("BnaA03g40380D", "BnaA08g13940D", "BnaC07g31350D")), ]
+# Bnapus_BLAST[c("BnaA03g40380D", "BnaA08g13940D", "BnaC07g31350D"), ]
+# gene_to_ids[["ERF104"]]
+# 
+# # TGA3 hits: c("BnaA08g20970D", "BnaA09g30910D", "BnaC05g17700D", "BnaC08g20170D")
+# Bnapus_annot[which(Bnapus_annot$Bnapus_gene_symbol %in% c("BnaA08g20970D", "BnaA09g30910D", "BnaC05g17700D", "BnaC08g20170D")), ]
+# Bnapus_BLAST[c("BnaA08g20970D", "BnaA09g30910D", "BnaC05g17700D", "BnaC08g20170D"), ]
+# gene_to_ids[["TGA3"]]
+# 
+# # WRKY29 hits: c("BnaA01g13230D", "BnaA03g46020D", "BnaA08g10660D", "BnaC01g15320D", "BnaC03g65200D", "BnaC07g25890D", "BnaC07g38350D")
+# Bnapus_annot[which(Bnapus_annot$Bnapus_gene_symbol %in% c("BnaA01g13230D", "BnaA03g46020D", "BnaA08g10660D", "BnaC01g15320D", "BnaC03g65200D", "BnaC07g25890D", "BnaC07g38350D")), ]
+# Bnapus_BLAST[c("BnaA01g13230D", "BnaA03g46020D", "BnaA08g10660D", "BnaC01g15320D", "BnaC03g65200D", "BnaC07g25890D", "BnaC07g38350D"), ]
+# gene_to_ids[["WRKY29"]]
+
 
 Bnapus_deseq2_out <- read.table("Bnapus_deseq2_outfiles/deseq2_log2fold.txt", header=TRUE, sep="\t", stringsAsFactors = FALSE, quote="", row.names=1)
 
@@ -118,7 +138,7 @@ for(tissue in c("root", "shoot")) {
     } else if(tissue == "shoot") {
       lfcshrink_file <- paste("Bnapus_deseq2_outfiles/", day, "_results_SC_SI_shrink.txt", sep="")
     }
-    
+
     tmp_lfcshrink <- read.table(lfcshrink_file, header=TRUE, sep="\t", stringsAsFactors = FALSE, row.names=1)
     
     for(At_gene in names(gene_to_ids)) {
@@ -141,7 +161,6 @@ root_rna$padj_category <- ">= 0.1"
 root_rna[which(root_rna$padj < 0.1), "padj_category"] <- "< 0.1"
 root_rna[which(root_rna$padj < 0.01), "padj_category"] <- "< 0.01"
 
-
 shoot_rna[which(shoot_rna$Day == "day1"), "Day"] <- "1"
 shoot_rna[which(shoot_rna$Day == "day3"), "Day"] <- "3"
 shoot_rna[which(shoot_rna$Day == "day5"), "Day"] <- "5"
@@ -160,11 +179,11 @@ shoot_rna_high_effect <- shoot_rna[which(shoot_rna$At_gene %in% high_effect_gene
 
 root_rna_plot <- ggplot(root_rna, aes(x=Day, y=log2fold, fill=padj_category)) + 
                          geom_hline(yintercept=0, linetype="dotted", color = "black", size=0.5) +
-                         geom_quasirandom(size=2, pch=21) +
+                           geom_quasirandom(size=1.5, pch=21) +
                          facet_wrap(~ At_gene, nrow = 4) +
                          ggtitle("Root") +
                          xlab("Day") +
-                         ylab(expression('log'[2]*'-fold difference (infected / control)')) +
+                         ylab(expression('log'[2]*'-fold difference')) +
                          scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75", "white")) +
                          theme_bw() +
                          theme(panel.grid.minor = element_blank(),
@@ -174,11 +193,11 @@ root_rna_plot <- ggplot(root_rna, aes(x=Day, y=log2fold, fill=padj_category)) +
 
 root_rna_high_effect_plot <- ggplot(root_rna_high_effect, aes(x=Day, y=log2fold, fill=padj_category)) + 
                                     geom_hline(yintercept=0, linetype="dotted", color = "black", size=0.5) +
-                                    geom_quasirandom(size=2, pch=21) +
+                                    geom_quasirandom(size=1.5, pch=21) +
                                     facet_wrap(~ At_gene, nrow = 2) +
                                     ggtitle("Root") +
                                     xlab("Day") +
-                                    ylab(expression('log'[2]*'-fold difference (infected / control)')) +
+                                    ylab(expression('log'[2]*'-fold difference')) +
                                     scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75", "white")) +
                                     theme_bw() +
                                     theme(panel.grid.minor = element_blank()) +
@@ -186,11 +205,11 @@ root_rna_high_effect_plot <- ggplot(root_rna_high_effect, aes(x=Day, y=log2fold,
 
 shoot_rna_plot <- ggplot(shoot_rna, aes(x=Day, y=log2fold, fill=padj_category)) + 
                           geom_hline(yintercept=0, linetype="dotted", color = "black", size=0.5) +
-                          geom_quasirandom(size=2, pch=21) +
+                          geom_quasirandom(size=1.5, pch=21) +
                           facet_wrap(~ At_gene, nrow = 4) +
                           ggtitle("Shoot") +
                           xlab("Day") +
-                          ylab(expression('log'[2]*'-fold difference (infected / control)')) +
+                          ylab(expression('log'[2]*'-fold difference')) +
                           scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75", "white")) +
                           theme_bw() +
                           theme(panel.grid.minor = element_blank(),
@@ -199,15 +218,25 @@ shoot_rna_plot <- ggplot(shoot_rna, aes(x=Day, y=log2fold, fill=padj_category)) 
 
 shoot_rna_high_effect_plot <- ggplot(shoot_rna_high_effect, aes(x=Day, y=log2fold, fill=padj_category)) + 
                                     geom_hline(yintercept=0, linetype="dotted", color = "black", size=0.5) +
-                                    geom_quasirandom(size=2, pch=21) +
+                                    geom_quasirandom(size=1.5, pch=21) +
                                     facet_wrap(~ At_gene, nrow = 2) +
                                     ggtitle("Shoot") +
                                     xlab("Day") +
-                                    ylab(expression('log'[2]*'-fold difference (infected / control)')) +
+                                    ylab(expression('log'[2]*'-fold difference')) +
                                     scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75",  "white")) +
                                     theme_bw() +
                                     theme(panel.grid.minor = element_blank()) +
                                     ylim(c(-4, 8))
 
-plot_grid(root_rna_high_effect_plot, shoot_rna_high_effect_plot, labels=c('a', 'b'), nrow=2)
+combined_high_effect_plot <- plot_grid(root_rna_high_effect_plot, shoot_rna_high_effect_plot, labels=c('A', 'B'), nrow=2)
+
+ggsave(filename = "plots/main/Figure7_master_TFs.pdf", plot = combined_high_effect_plot,
+       width = 7.20472, height=5)
+
+
+ggsave(filename = "plots/exploratory/all_shoot_master_TFs.pdf", plot = shoot_rna_plot,
+       width = 7.20472, height=5)
+
+ggsave(filename = "plots/exploratory/all_root_master_TFs.pdf", plot = root_rna_plot,
+       width = 7.20472, height=5)
 
