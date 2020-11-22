@@ -62,7 +62,14 @@ shoot_down_sig_venn <- ggVennDiagram(x = shoot_down_sig) +
 
 
 # Plot figure
-pdf(file = "plots/main/Figure3.pdf", width=7.3, height=7.3, onefile=FALSE)
+pdf(file = "plots/main/Figure2_venn.pdf", width=7.3, height=7.3, onefile=FALSE)
+plot_grid(root_up_sig_venn, root_down_sig_venn, shoot_up_sig_venn, shoot_down_sig_venn,
+          labels=c('A', 'B', 'C', 'D'), nrow=2, ncol=2)
+dev.off()
+
+
+tiff(file = "plots/main/Figure2_venn.tiff", width=7.3, height=7.3,
+     compression = "lzw", res=300, units="in")
 plot_grid(root_up_sig_venn, root_down_sig_venn, shoot_up_sig_venn, shoot_down_sig_venn,
           labels=c('A', 'B', 'C', 'D'), nrow=2, ncol=2)
 dev.off()

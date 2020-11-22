@@ -194,6 +194,11 @@ full_heatmap <- Heatmap(matrix=as.matrix(ratios_Bn_set),
                         column_gap=unit(4, "mm"),
                         clustering_distance_rows="euclidean")
 
-pdf(file = "plots/main/Figure2.pdf", width=7.3, height=7.3, onefile=FALSE)
+pdf(file = "plots/main/Figure3_heatmap.pdf", width=7.3, height=7.3, onefile=FALSE)
+full_heatmap
+dev.off()
+
+tiff(file = "plots/main/Figure3_heatmap.tiff", width=7.3, height=7.3,
+     compression = "lzw", res=300, units="in")
 full_heatmap
 dev.off()

@@ -109,7 +109,12 @@ shoot_hormone_barplot <- ggplot(shoot_hormones, aes(x = Term, y = fold, fill=Day
                                                      position = position_dodge(.90))
 
 
-pdf(file = "plots/main/Figure8_hormone_GO.pdf", width=12, height=5, onefile=FALSE)
+pdf(file = "plots/main/Figure7_hormone_GO.pdf", width=12, height=5, onefile=FALSE)
 plot_grid(root_hormone_barplot, shoot_hormone_barplot, labels=c('A', 'B'))
 dev.off()
 
+
+tiff(file = "plots/main/Figure7_hormone_GO.tiff",  width=12, height=5,
+     compression = "lzw", res=300, units="in")
+plot_grid(root_hormone_barplot, shoot_hormone_barplot, labels=c('A', 'B'))
+dev.off()

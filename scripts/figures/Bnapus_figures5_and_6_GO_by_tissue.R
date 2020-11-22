@@ -181,6 +181,15 @@ plot_grid(root_day1_up, root_day3_up, root_day5_up, root_day1_down, root_day5_do
           labels=c('A', 'B', 'C', 'D', 'E'))
 dev.off()
 
+tiff(file = "plots/main/Figure5_root_GO.tiff", width=18, height=10,
+     compression = "lzw", res=300, units="in")
+plot_grid(root_day1_up, root_day3_up, root_day5_up, root_day1_down, root_day5_down,
+          nrow=2,
+          labels=c('A', 'B', 'C', 'D', 'E'))
+dev.off()
+
+
+
 
 pdf(file = "plots/main/Figure6_shoot_GO.pdf", width=12, height=10, onefile=FALSE)
 plot_grid(shoot_day1_up, shoot_day3_up,
@@ -190,3 +199,10 @@ plot_grid(shoot_day1_up, shoot_day3_up,
 
 dev.off()
 
+tiff(file = "plots/main/Figure6_shoot_GO.tiff", width=12, height=10,
+     compression = "lzw", res=300, units="in")
+plot_grid(shoot_day1_up, shoot_day3_up,
+          shoot_day5_up, shoot_day5_down,
+          nrow=2, ncol=2,
+          labels=c('A', 'B', 'C', 'D'))
+dev.off()

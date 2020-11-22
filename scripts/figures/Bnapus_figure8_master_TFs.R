@@ -230,9 +230,13 @@ shoot_rna_high_effect_plot <- ggplot(shoot_rna_high_effect, aes(x=Day, y=log2fol
 
 combined_high_effect_plot <- plot_grid(root_rna_high_effect_plot, shoot_rna_high_effect_plot, labels=c('A', 'B'), nrow=2)
 
-ggsave(filename = "plots/main/Figure7_master_TFs.pdf", plot = combined_high_effect_plot,
+ggsave(filename = "plots/main/Figure8_master_TFs.pdf", plot = combined_high_effect_plot,
        width = 7.20472, height=5)
 
+tiff(file = "plots/main/Figure8_master_TFs.tiff", width=7.20472, height=5,
+     compression = "lzw", res=300, units="in")
+combined_high_effect_plot
+dev.off()
 
 ggsave(filename = "plots/exploratory/all_shoot_master_TFs.pdf", plot = shoot_rna_plot,
        width = 7.20472, height=5)
