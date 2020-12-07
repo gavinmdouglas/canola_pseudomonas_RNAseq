@@ -183,7 +183,7 @@ root_rna_plot <- ggplot(root_rna, aes(x=Day, y=log2fold, fill=padj_category)) +
                          facet_wrap(~ At_gene, nrow = 4) +
                          ggtitle("Root") +
                          xlab("Day") +
-                         ylab(expression('log'[2]*'-fold difference')) +
+                         ylab(expression('log'[2]*' fold change')) +
                          scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75", "white")) +
                          theme_bw() +
                          theme(panel.grid.minor = element_blank(),
@@ -197,7 +197,7 @@ root_rna_high_effect_plot <- ggplot(root_rna_high_effect, aes(x=Day, y=log2fold,
                                     facet_wrap(~ At_gene, nrow = 2) +
                                     ggtitle("Root") +
                                     xlab("Day") +
-                                    ylab(expression('log'[2]*'-fold difference')) +
+                                    ylab(expression('log'[2]*' fold change')) +
                                     scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75", "white")) +
                                     theme_bw() +
                                     theme(panel.grid.minor = element_blank()) +
@@ -209,7 +209,7 @@ shoot_rna_plot <- ggplot(shoot_rna, aes(x=Day, y=log2fold, fill=padj_category)) 
                           facet_wrap(~ At_gene, nrow = 4) +
                           ggtitle("Shoot") +
                           xlab("Day") +
-                          ylab(expression('log'[2]*'-fold difference')) +
+                          ylab(expression('log'[2]*' fold change')) +
                           scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75", "white")) +
                           theme_bw() +
                           theme(panel.grid.minor = element_blank(),
@@ -222,7 +222,7 @@ shoot_rna_high_effect_plot <- ggplot(shoot_rna_high_effect, aes(x=Day, y=log2fol
                                     facet_wrap(~ At_gene, nrow = 2) +
                                     ggtitle("Shoot") +
                                     xlab("Day") +
-                                    ylab(expression('log'[2]*'-fold difference')) +
+                                    ylab(expression('log'[2]*' fold change')) +
                                     scale_fill_manual(name="Adjusted\nP-value", values=c("black", "grey75",  "white")) +
                                     theme_bw() +
                                     theme(panel.grid.minor = element_blank()) +
