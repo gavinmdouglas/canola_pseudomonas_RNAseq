@@ -87,8 +87,8 @@ root_scatterplot <- ggplot(root_rna, aes(x=rnaseq_mean, y=qpcr_mean, fill=Day, s
                             geom_vline(xintercept = 0, color="grey", linetype="dashed", size=0.5) +
                             geom_hline(yintercept = 0, color="grey", linetype="dashed", size=0.5) +
                             ggtitle("Root") +
-                            ylab(expression('RT-qPCR log'[2]*' fold change')) +
-                            xlab(expression('RNA-seq log'[2]*' fold change')) +
+                            ylab(expression('RT-qPCR log'[2]*'-fold change')) +
+                            xlab(expression('RNA-seq log'[2]*'-fold change')) +
                             xlim(-5, 10) +
                             ylim(-5, 10) +
                             theme(legend.justification = c(0.05, 1), legend.position = c(0.05, 1),
@@ -116,8 +116,8 @@ shoot_scatterplot <- ggplot(shoot_rna, aes(x=rnaseq_mean, y=qpcr_mean, fill=Day,
   geom_vline(xintercept = 0, color="grey", linetype="dashed", size=0.5) +
   geom_hline(yintercept = 0, color="grey", linetype="dashed", size=0.5) +
   ggtitle("Shoot") +
-  ylab(expression('RT-qPCR log'[2]*' fold change')) +
-  xlab(expression('RNA-seq log'[2]*' fold change')) +
+  ylab(expression('RT-qPCR log'[2]*'-fold change')) +
+  xlab(expression('RNA-seq log'[2]*'-fold change')) +
   xlim(-5, 10) +
   ylim(-5, 10) +
   theme(legend.justification = c(0.05, 1), legend.position = c(0.05, 1),
