@@ -234,7 +234,7 @@ ggsave(filename = "plots/main/Figure8_master_TFs.pdf", plot = combined_high_effe
        width = 7.20472, height=5)
 
 tiff(file = "plots/main/Figure8_master_TFs.tiff", width=7.20472, height=5,
-     compression = "lzw", res=300, units="in")
+     compression = "lzw", res=600, units="in")
 combined_high_effect_plot
 dev.off()
 

@@ -133,7 +133,7 @@ plot_grid(root_scatterplot, shoot_scatterplot,
 dev.off()
 
 tiff(file = "plots/main/Figure4_qPCR_vs_RNAseq.tiff", width=12, height=6,
-     compression = "lzw", res=300, units="in")
+     compression = "lzw", res=600, units="in")
 plot_grid(root_scatterplot, shoot_scatterplot,
           nrow=1,
           labels=c('A', 'B'))
